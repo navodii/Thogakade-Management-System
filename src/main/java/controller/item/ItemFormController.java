@@ -117,12 +117,31 @@ public class ItemFormController implements Initializable {
                 loadTable();
             }
         } catch (SQLException e) {
-            new Alert(Alert.AlertType.INFORMATION , "Customer Not Deleted").show();
+            new Alert(Alert.AlertType.ERROR , "Customer Not Deleted").show();
         }
     }
 
     @FXML
     void btnSearchOnAction(ActionEvent event) {
+        String SQL = "SELECT * FROM item WHERE ItemCode=?";
+
+        try {
+            Connection connection = DBConnection.getInstance().getConnection();
+            PreparedStatement psTm = connection.prepareStatement(SQL);
+            psTm.setObject(1,txtitemCode.getText());
+            ResultSet resultSet = psTm.executeQuery();
+            resultSet.next();
+            Item item = new Item(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getDouble(4),
+                    resultSet.getInt(5)
+            );
+            setValueToText(item);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
