@@ -117,7 +117,7 @@ public class ItemFormController implements Initializable {
                 loadTable();
             }
         } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR , "Customer Not Deleted").show();
+            new Alert(Alert.AlertType.INFORMATION , "Customer Not Deleted").show();
         }
     }
 
