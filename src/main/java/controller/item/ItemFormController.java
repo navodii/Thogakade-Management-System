@@ -156,7 +156,7 @@ public class ItemFormController implements Initializable {
                 Integer.parseInt(txtQty.getText())
         );
 
-        String SQL = "UPDATR item SET Description=?, PackSize=?, UnitPrice=?, QTYOnHand=? WHERE ItemCode=?";
+        String SQL = "UPDATE item SET Description=?, PackSize=?, UnitPrice=?, QTYOnHand=? WHERE ItemCode=?";
 
         try {
             Connection connection = DBConnection.getInstance().getConnection();
@@ -169,11 +169,11 @@ public class ItemFormController implements Initializable {
             Boolean isUpdated = psTm.executeUpdate()>0;
 
             if (isUpdated){
-                new Alert(Alert.AlertType.INFORMATION,"Item Updated");
+                new Alert(Alert.AlertType.INFORMATION,"Item Updated").show();
                 loadTable();
             }
         } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,"Item Not Updated");
+            new Alert(Alert.AlertType.ERROR,"Item Not Updated").show();
         }
     }
 
