@@ -1,6 +1,7 @@
 package controller.item;
 
 import com.jfoenix.controls.JFXTextField;
+import db.DBConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -55,6 +56,20 @@ public class ItemFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadTable();
+        
+        tblItems.getSelectionModel().selectedItemProperty().addListener((observableValue, item, newValue) -> {
+            if (newValue != null) {
+                setValueToText(newValue);
+            }
+        });
+    }
+
+    private void setValueToText(Item newValue) {
+        txtitemCode.setText(newValue.getItemCode());
+        txtDescription.setText(newValue.getDescription());
+        txtPackSize.setText(newValue.getPackSize());
+        txtUnitPrice.setText(newValue.getUnitPrice().toString());
+        txtQty.setText(String.valueOf(newValue.getQty()));
     }
 
     @FXML
@@ -70,7 +85,7 @@ public class ItemFormController implements Initializable {
         String SQL = "INSERT INTO item VALUES(?,?,?,?,?)";
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade", "root", "12345");
+            Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement psTm = connection.prepareStatement(SQL);
             psTm.setObject(1,item.getItemCode());
             psTm.setObject(2,item.getDescription());
@@ -83,7 +98,6 @@ public class ItemFormController implements Initializable {
                 new Alert(Alert.AlertType.INFORMATION,"Customer Added").show();
                 loadTable();
             }
-            System.out.println(isCustomerAdd);
 
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR,"Customer Not Added").show();
@@ -92,7 +106,19 @@ public class ItemFormController implements Initializable {
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
+        String SQL = "DELETE FROM item WHERE ItemCode='"+txtitemCode.getText()+"'";
 
+        try {
+            Connection connection = DBConnection.getInstance().getConnection();
+            boolean isDeleted = connection.createStatement().executeUpdate(SQL)>0;
+
+            if (isDeleted) {
+                new Alert(Alert.AlertType.INFORMATION, "Customer Deleted").show();
+                loadTable();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR , "Customer Not Deleted").show();
+        }
     }
 
     @FXML
