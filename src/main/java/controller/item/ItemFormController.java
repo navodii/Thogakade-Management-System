@@ -95,12 +95,12 @@ public class ItemFormController implements Initializable {
             boolean isCustomerAdd = psTm.executeUpdate() > 0;
 
             if (isCustomerAdd){
-                new Alert(Alert.AlertType.INFORMATION,"Customer Added").show();
+                new Alert(Alert.AlertType.INFORMATION,"Item Added").show();
                 loadTable();
             }
 
         } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,"Customer Not Added").show();
+            new Alert(Alert.AlertType.ERROR,"Item Not Added").show();
         }
     }
 
@@ -113,11 +113,12 @@ public class ItemFormController implements Initializable {
             boolean isDeleted = connection.createStatement().executeUpdate(SQL)>0;
 
             if (isDeleted) {
-                new Alert(Alert.AlertType.INFORMATION, "Customer Deleted").show();
+                new Alert(Alert.AlertType.INFORMATION, "Item Deleted").show();
                 loadTable();
             }
         } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR , "Customer Not Deleted").show();
+            new Alert(Alert.AlertType.ERROR , "Item Not Deleted").show();
+            loadTable();
         }
     }
 
@@ -147,7 +148,33 @@ public class ItemFormController implements Initializable {
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
+        Item item = new Item(
+                txtitemCode.getText(),
+                txtDescription.getText(),
+                txtPackSize.getText(),
+                Double.parseDouble(txtUnitPrice.getText()),
+                Integer.parseInt(txtQty.getText())
+        );
 
+        String SQL = "UPDATR item SET Description=?, PackSize=?, UnitPrice=?, QTYOnHand=? WHERE ItemCode=?";
+
+        try {
+            Connection connection = DBConnection.getInstance().getConnection();
+            PreparedStatement psTm = connection.prepareStatement(SQL);
+            psTm.setObject(1,item.getDescription());
+            psTm.setObject(2,item.getPackSize());
+            psTm.setObject(3,item.getUnitPrice());
+            psTm.setObject(4,item.getQty());
+            psTm.setObject(5,item.getItemCode());
+            Boolean isUpdated = psTm.executeUpdate()>0;
+
+            if (isUpdated){
+                new Alert(Alert.AlertType.INFORMATION,"Item Updated");
+                loadTable();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR,"Item Not Updated");
+        }
     }
 
     private void loadTable(){
