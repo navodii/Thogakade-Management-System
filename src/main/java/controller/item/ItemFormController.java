@@ -85,16 +85,16 @@ public class ItemFormController implements Initializable {
         String SQL = "INSERT INTO item VALUES(?,?,?,?,?)";
 
         try {
-            Connection connection = DBConnection.getInstance().getConnection();
-            PreparedStatement psTm = connection.prepareStatement(SQL);
-            psTm.setObject(1,item.getItemCode());
-            psTm.setObject(2,item.getDescription());
-            psTm.setObject(3,item.getPackSize());
-            psTm.setObject(4,item.getUnitPrice());
-            psTm.setObject(5,item.getQty());
-            boolean isCustomerAdd = psTm.executeUpdate() > 0;
+            Boolean isItemAdd = CrudUtil.execute(
+                    SQL,
+                    item.getItemCode(),
+                    item.getDescription(),
+                    item.getPackSize(),
+                    item.getUnitPrice(),
+                    item.getQty()
+            );
 
-            if (isCustomerAdd){
+            if (isItemAdd){
                 new Alert(Alert.AlertType.INFORMATION,"Item Added").show();
                 loadTable();
             }
@@ -106,18 +106,17 @@ public class ItemFormController implements Initializable {
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
-        String SQL = "DELETE FROM item WHERE ItemCode='"+txtitemCode.getText()+"'";
+        String SQL = "DELETE FROM item WHERE ItemCode=?";
 
         try {
-            Connection connection = DBConnection.getInstance().getConnection();
-            boolean isDeleted = connection.createStatement().executeUpdate(SQL)>0;
+            boolean isItemDeleted = CrudUtil.execute(SQL,txtitemCode.getText());
 
-            if (isDeleted) {
-                new Alert(Alert.AlertType.INFORMATION, "Item Deleted").show();
+            if (isItemDeleted) {
+                new Alert(Alert.AlertType.INFORMATION, ""+txtitemCode.getText()+"Item Deleted").show();
                 loadTable();
             }
         } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR , "Item Not Deleted").show();
+            new Alert(Alert.AlertType.ERROR , ""+txtitemCode.getText()+"Item Not Deleted").show();
             loadTable();
         }
     }
@@ -127,10 +126,7 @@ public class ItemFormController implements Initializable {
         String SQL = "SELECT * FROM item WHERE ItemCode=?";
 
         try {
-            Connection connection = DBConnection.getInstance().getConnection();
-            PreparedStatement psTm = connection.prepareStatement(SQL);
-            psTm.setObject(1,txtitemCode.getText());
-            ResultSet resultSet = psTm.executeQuery();
+            ResultSet resultSet = CrudUtil.execute(SQL, txtitemCode.getText());
             resultSet.next();
             Item item = new Item(
                     resultSet.getString(1),
@@ -159,16 +155,17 @@ public class ItemFormController implements Initializable {
         String SQL = "UPDATE item SET Description=?, PackSize=?, UnitPrice=?, QTYOnHand=? WHERE ItemCode=?";
 
         try {
-            Connection connection = DBConnection.getInstance().getConnection();
-            PreparedStatement psTm = connection.prepareStatement(SQL);
-            psTm.setObject(1,item.getDescription());
-            psTm.setObject(2,item.getPackSize());
-            psTm.setObject(3,item.getUnitPrice());
-            psTm.setObject(4,item.getQty());
-            psTm.setObject(5,item.getItemCode());
-            Boolean isUpdated = psTm.executeUpdate()>0;
 
-            if (isUpdated){
+            Boolean isItemUpdate = CrudUtil.execute(
+                    SQL,
+                    item.getDescription(),
+                    item.getPackSize(),
+                    item.getUnitPrice(),
+                    item.getQty(),
+                    item.getItemCode()
+            );
+
+            if (isItemUpdate){
                 new Alert(Alert.AlertType.INFORMATION,"Item Updated").show();
                 loadTable();
             }
@@ -186,11 +183,9 @@ public class ItemFormController implements Initializable {
         colUnitPrice.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
         colQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
 
+        String SQL = "SELECT * FROM item";
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/thogakade", "root", "12345");
-            String SQL = "SELECT * FROM item";
-
-            ResultSet resultSet = connection.createStatement().executeQuery(SQL);
+            ResultSet resultSet = CrudUtil.execute(SQL);
 
             while (resultSet.next()){
                 Item item = new Item(

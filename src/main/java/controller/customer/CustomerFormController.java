@@ -126,7 +126,7 @@ public class CustomerFormController implements Initializable {
         String SQL = "DELETE FROM customer WHERE CustID = ?";
 
         try {
-            boolean isDeleted = CrudUtil.execute(SQL);
+            boolean isDeleted = CrudUtil.execute(SQL,txtCustomerId.getText());
             if (isDeleted){
                 new Alert(Alert.AlertType.INFORMATION,""+txtCustomerId.getText()+"Customer Deleted !!").show();
                 loadTable();
