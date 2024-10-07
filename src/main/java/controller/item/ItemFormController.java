@@ -53,6 +53,8 @@ public class ItemFormController implements Initializable {
     @FXML
     private JFXTextField txtitemCode;
 
+    ItemService itemController = new ItemController();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadTable();
@@ -74,6 +76,7 @@ public class ItemFormController implements Initializable {
 
     @FXML
     void btnAddOnAction(ActionEvent event) {
+
         Item item = new Item(
                 txtitemCode.getText(),
                 txtDescription.getText(),
@@ -82,26 +85,14 @@ public class ItemFormController implements Initializable {
                 Integer.parseInt(txtQty.getText())
         );
 
-        String SQL = "INSERT INTO item VALUES(?,?,?,?,?)";
-
-        try {
-            Boolean isItemAdd = CrudUtil.execute(
-                    SQL,
-                    item.getItemCode(),
-                    item.getDescription(),
-                    item.getPackSize(),
-                    item.getUnitPrice(),
-                    item.getQty()
-            );
+            Boolean isItemAdd = itemController.addItem(item);
 
             if (isItemAdd){
                 new Alert(Alert.AlertType.INFORMATION,"Item Added").show();
                 loadTable();
+            }else {
+                new Alert(Alert.AlertType.ERROR,"Item Not Added").show();
             }
-
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,"Item Not Added").show();
-        }
     }
 
     @FXML

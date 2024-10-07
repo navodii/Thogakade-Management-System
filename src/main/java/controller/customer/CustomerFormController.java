@@ -78,6 +78,8 @@ public class CustomerFormController implements Initializable {
     @FXML
     private JFXTextField txtSalary;
 
+    CustomerService customerController = new CustomerController();
+
     @FXML
     void btnAddOnAction(ActionEvent event) {
 
@@ -93,32 +95,14 @@ public class CustomerFormController implements Initializable {
                 txtPostalCode.getText()
         );
 
-        String SQL = "INSERT INTO customer VALUES(?,?,?,?,?,?,?,?,?)";
-
-        try {
-            boolean isCustomerAdd = CrudUtil.execute(
-                    SQL,
-                    customer.getId(),
-                    customer.getTitle(),
-                    customer.getName(),
-                    customer.getDob(),
-                    customer.getSalary(),
-                    customer.getAddress(),
-                    customer.getCity(),
-                    customer.getProvince(),
-                    customer.getPostalCode()
-            );
+            boolean isCustomerAdd = customerController.addCustomer(customer);
             if (isCustomerAdd){
                 new Alert(Alert.AlertType.INFORMATION,"Customer Added").show();
                 loadTable();
+            }else {
+                new Alert(Alert.AlertType.ERROR,"Customer Not Added").show();
             }
-            System.out.println(isCustomerAdd);
 
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,"Customer Not Added").show();
-        }
-
-        System.out.println(customer);
     }
 
     @FXML
