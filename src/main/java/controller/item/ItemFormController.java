@@ -57,6 +57,12 @@ public class ItemFormController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        colItemCode.setCellValueFactory(new PropertyValueFactory<>("itemCode"));
+        colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colPackSize.setCellValueFactory(new PropertyValueFactory<>("packSize"));
+        colUnitPrice.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
+        colQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
+
         loadTable();
         
         tblItems.getSelectionModel().selectedItemProperty().addListener((observableValue, item, newValue) -> {
@@ -166,33 +172,8 @@ public class ItemFormController implements Initializable {
     }
 
     private void loadTable(){
-        ObservableList<Item> itemObservableList = FXCollections.observableArrayList();
-
-        colItemCode.setCellValueFactory(new PropertyValueFactory<>("itemCode"));
-        colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
-        colPackSize.setCellValueFactory(new PropertyValueFactory<>("packSize"));
-        colUnitPrice.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
-        colQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
-
-        String SQL = "SELECT * FROM item";
-        try {
-            ResultSet resultSet = CrudUtil.execute(SQL);
-
-            while (resultSet.next()){
-                Item item = new Item(
-                        resultSet.getString("ItemCode"),
-                        resultSet.getString("Description"),
-                        resultSet.getString("PackSize"),
-                        resultSet.getDouble("UnitPrice"),
-                        resultSet.getInt("QtyOnHand")
-                );
-                itemObservableList.add(item);
-            }
-            tblItems.setItems(itemObservableList);
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        ObservableList<Item> itemObservableList = itemController.getAllItem();
+        tblItems.setItems(itemObservableList);
     }
 
 }
