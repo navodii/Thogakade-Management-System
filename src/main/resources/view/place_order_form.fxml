@@ -11,10 +11,9 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="577.0" prefWidth="862.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PlaceOrderFormController">
+<AnchorPane prefHeight="577.0" prefWidth="821.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PlaceOrderFormController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#273c75" height="78.0" stroke="BLACK" strokeType="INSIDE" width="861.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#273c75" height="78.0" layoutX="2.0" stroke="BLACK" strokeType="INSIDE" width="816.0" />
       <Label alignment="CENTER" layoutX="281.0" layoutY="1.0" prefHeight="78.0" prefWidth="318.0" text="Place Order Form" textFill="WHITE">
          <font>
             <Font name="System Bold" size="36.0" />
@@ -50,13 +49,13 @@
       <JFXTextField fx:id="txtUnitPrice" layoutX="440.0" layoutY="201.0" promptText="Unit Price" />
       <JFXTextField fx:id="txtStock" layoutX="623.0" layoutY="201.0" promptText="Stock" />
       <JFXTextField fx:id="txtQty" layoutX="532.0" layoutY="256.0" prefHeight="26.0" prefWidth="90.0" promptText="QTY" />
-      <JFXButton fx:id="btnAddToCart" layoutX="646.0" layoutY="256.0" onAction="#btnAddToCartOnAction" prefHeight="26.0" prefWidth="112.0" style="-fx-background-color: #fed330;" text="Add To Cart" textFill="WHITE">
+      <JFXButton fx:id="btnAddToCart" layoutX="646.0" layoutY="256.0" onAction="#btnAddToCartOnAction" prefHeight="26.0" prefWidth="112.0" style="-fx-background-color: #FFC312;" text="Add To Cart" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </JFXButton>
       <Separator layoutX="54.0" layoutY="135.0" prefHeight="4.0" prefWidth="708.0" />
-      <TableView layoutX="54.0" layoutY="316.0" prefHeight="200.0" prefWidth="708.0">
+      <TableView fx:id="tblCart" layoutX="54.0" layoutY="316.0" prefHeight="200.0" prefWidth="708.0">
         <columns>
           <TableColumn fx:id="colItemCode" prefWidth="100.79998397827148" text="Item Code" />
           <TableColumn fx:id="colDescription" prefWidth="251.1999969482422" text="Description" />
