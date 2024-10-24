@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import controller.customer.CustomerController;
+import controller.item.ItemController;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -15,6 +16,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.util.Duration;
 import model.Customer;
+import model.Item;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -34,7 +36,7 @@ public class PlaceOrderFormController implements Initializable {
     private JFXComboBox<String> cmbCustomerId;
 
     @FXML
-    private JFXComboBox<?> cmbItemCode;
+    private JFXComboBox<String> cmbItemCode;
 
     @FXML
     private TableColumn<?, ?> colDescription;
@@ -102,6 +104,7 @@ public class PlaceOrderFormController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadDateAndTime();
         loadCustomerIds();
+        loadItemCodes();
     }
 
     private void loadDateAndTime() {
@@ -126,4 +129,7 @@ public class PlaceOrderFormController implements Initializable {
         cmbCustomerId.setItems(new CustomerController().getCustomerIdes());
     }
 
+    private void loadItemCodes(){
+        cmbItemCode.setItems(new ItemController().getItemCodes());
+    }
 }

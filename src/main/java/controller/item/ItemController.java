@@ -2,6 +2,7 @@ package controller.item;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Item;
 import util.CrudUtil;
@@ -63,5 +64,15 @@ public class ItemController implements ItemService{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public ObservableList <String> getItemCodes(){
+        ObservableList<Item> allItem = getAllItem();
+        ObservableList<String> itemCodeList = FXCollections.observableArrayList();
+
+        allItem.forEach(item -> {
+            itemCodeList.add(item.getItemCode());
+        });
+        return itemCodeList;
     }
 }
