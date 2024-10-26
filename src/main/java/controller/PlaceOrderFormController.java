@@ -102,6 +102,10 @@ public class PlaceOrderFormController implements Initializable {
 
 @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        cmbItemCode.getSelectionModel().selectedItemProperty().addListener((observableValue, s, newValue) -> {
+             loadItemData(newValue);
+        });
+
         loadDateAndTime();
         loadCustomerIds();
         loadItemCodes();
@@ -131,5 +135,14 @@ public class PlaceOrderFormController implements Initializable {
 
     private void loadItemCodes(){
         cmbItemCode.setItems(new ItemController().getItemCodes());
+    }
+
+    private void loadItemData(String itemCode){
+        Item item = new ItemController().searchItem(itemCode);
+
+        txtItemDescription.setText(item.getDescription());
+        txtUnitPrice.setText(item.getUnitPrice().toString());
+        txtStock.setText(String.valueOf(item.getQty()));
+
     }
 }

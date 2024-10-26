@@ -35,7 +35,22 @@ public class ItemController implements ItemService{
 
     @Override
     public Item searchItem(String itemCode) {
-        return null;
+        String SQL = "SELECT * FROM item WHERE ItemCode=?";
+        ResultSet resultSet = null;
+        try {
+            resultSet = CrudUtil.execute(SQL, itemCode);
+            resultSet.next();
+            return new Item(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getDouble(4),
+                    resultSet.getInt(5)
+            );
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
