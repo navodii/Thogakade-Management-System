@@ -17,6 +17,7 @@ import util.CrudUtil;
 
 import java.net.URL;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class CustomerFormController implements Initializable {
@@ -102,7 +103,7 @@ public class CustomerFormController implements Initializable {
             }else {
                 new Alert(Alert.AlertType.ERROR,"Customer Not Added").show();
             }
-
+        clearValues();
     }
 
     @FXML
@@ -114,6 +115,7 @@ public class CustomerFormController implements Initializable {
         else{
             new Alert(Alert.AlertType.ERROR,""+txtCustomerId.getText()+"Customer Not Deleted !!").show();
         }
+        clearValues();
     }
 
     @FXML
@@ -124,6 +126,7 @@ public class CustomerFormController implements Initializable {
     @FXML
     void btnSearchOnAction(ActionEvent event) {
         setValueToText(customerController.searchCustomer(txtCustomerId.getText()));
+
     }
 
     @FXML
@@ -145,6 +148,7 @@ public class CustomerFormController implements Initializable {
             }else {
                 new Alert(Alert.AlertType.ERROR,"Customer Not Updated").show();
             }
+        clearValues();
     }
 
     private void loadTable(){
@@ -190,5 +194,17 @@ public class CustomerFormController implements Initializable {
         dateDob.setValue(newValue.getDob());
         txtAddress.setText(newValue.getAddress());
         txtCity.setText(newValue.getCity());
+    }
+
+    private void clearValues(){
+        txtCustomerId.setText("");
+        txtName.setText("");
+        cmbTitle.setValue("");
+        txtProvince.setText("");
+        txtPostalCode.setText("");
+        txtSalary.setText("");
+        //dateDob.setValue(LocalDate.parse(""));;
+        txtAddress.setText("");
+        txtCity.setText("");
     }
 }

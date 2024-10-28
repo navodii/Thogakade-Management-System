@@ -103,6 +103,7 @@ public class ItemFormController implements Initializable {
             }else {
                 new Alert(Alert.AlertType.ERROR,"Item Not Added").show();
             }
+        clearValues();
     }
 
     @FXML
@@ -120,6 +121,7 @@ public class ItemFormController implements Initializable {
             new Alert(Alert.AlertType.ERROR , ""+txtitemCode.getText()+"Item Not Deleted").show();
             loadTable();
         }
+        clearValues();
     }
 
     @FXML
@@ -159,6 +161,15 @@ public class ItemFormController implements Initializable {
             }else {
             new Alert(Alert.AlertType.ERROR,"Item Not Updated").show();
         }
+        clearValues();
+    }
+
+    private void clearValues(){
+        txtitemCode.setText("");
+        txtDescription.setText("");
+        txtPackSize.setText("");
+        txtUnitPrice.setText("");
+        txtQty.setText("");
     }
 
     private void loadTable(){

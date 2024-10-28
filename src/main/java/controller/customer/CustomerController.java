@@ -32,7 +32,7 @@ public class CustomerController implements CustomerService {
 
     @Override
     public boolean updateCustomer(Customer customer) {
-        String SQL = "UPDATE customer SET ustTitle=?, CustName=?, DOB=?, salary=?, CustAddress=?, City=?, Province=?, PostalCode=? WHERE CustId=?";
+        String SQL = "UPDATE customer SET CustTitle=?, CustName=?, DOB=?, salary=?, CustAddress=?, City=?, Province=?, PostalCode=? WHERE CustId=?";
         try {
            return CrudUtil.execute(
                     SQL,
@@ -77,7 +77,7 @@ public class CustomerController implements CustomerService {
 
     @Override
     public boolean deleteCustomer(String id) {
-        String SQL = "DELETE * FROM customer WHERE CustId = ?";
+        String SQL = "DELETE FROM customer WHERE CustId = ?";
         try {
             return CrudUtil.execute(SQL,id);
         } catch (SQLException e) {
