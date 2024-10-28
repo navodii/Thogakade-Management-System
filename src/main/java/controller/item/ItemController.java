@@ -30,7 +30,19 @@ public class ItemController implements ItemService{
 
     @Override
     public boolean updateItem(Item item) {
-        return false;
+        String SQL = "UPDATE item SET Description=?, PackSize=?, UnitPrice=?, QTYOnHand=? WHERE ItemCode=?";
+        try {
+            return CrudUtil.execute(
+                    SQL,
+                    item.getDescription(),
+                    item.getPackSize(),
+                    item.getUnitPrice(),
+                    item.getQty(),
+                    item.getItemCode()
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

@@ -153,24 +153,10 @@ public class ItemFormController implements Initializable {
                 Integer.parseInt(txtQty.getText())
         );
 
-        String SQL = "UPDATE item SET Description=?, PackSize=?, UnitPrice=?, QTYOnHand=? WHERE ItemCode=?";
-
-        try {
-
-            Boolean isItemUpdate = CrudUtil.execute(
-                    SQL,
-                    item.getDescription(),
-                    item.getPackSize(),
-                    item.getUnitPrice(),
-                    item.getQty(),
-                    item.getItemCode()
-            );
-
-            if (isItemUpdate){
+            if (itemController.updateItem(item)){
                 new Alert(Alert.AlertType.INFORMATION,"Item Updated").show();
                 loadTable();
-            }
-        } catch (SQLException e) {
+            }else {
             new Alert(Alert.AlertType.ERROR,"Item Not Updated").show();
         }
     }
