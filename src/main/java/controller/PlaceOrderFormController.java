@@ -106,6 +106,10 @@ public class PlaceOrderFormController implements Initializable {
              loadItemData(newValue);
         });
 
+        cmbCustomerId.getSelectionModel().selectedItemProperty().addListener((observableValue, s, newValue) -> {
+            loadCustomerData(newValue);
+        } );
+
         loadDateAndTime();
         loadCustomerIds();
         loadItemCodes();
@@ -131,6 +135,14 @@ public class PlaceOrderFormController implements Initializable {
 
     private void loadCustomerIds(){
         cmbCustomerId.setItems(new CustomerController().getCustomerIdes());
+    }
+
+    private void loadCustomerData(String id){
+        Customer customer = new CustomerController().searchCustomer(id);
+
+        txtName.setText(customer.getName());
+        txtCity.setText(customer.getCity());
+        txtSalary.setText(String.valueOf(customer.getSalary()));
     }
 
     private void loadItemCodes(){
